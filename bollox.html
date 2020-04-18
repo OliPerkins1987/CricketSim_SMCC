@@ -1,0 +1,268 @@
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 10px;
+
+}
+
+input[type=submit] {
+    width: 20em;  height: 2em;
+}
+
+</style>
+
+
+    <head>
+        <title> Moneybollox </title>
+    </head>
+
+	<body>
+
+<h2>Match situation</h2>
+
+<div class="row">
+  <div class="column" style="background-color:#aaa;">
+    <h2>Team 1</h2>
+    <p>Runs: {{ t1score }}</p>
+	<p>Wickets: {{ t1wickets }}</p>
+	<p>Overs: {{ t1overs }}</p>
+  </div>
+
+
+  <div class="column" style="background-color:#bbb;">
+    <h2>Team 2</h2>
+    <p>Runs: {{ t2score }}</p>
+	<p>Wickets: {{ t2wickets }}</p>
+	<p>Overs: {{ t2overs }}</p>
+  </div>
+
+
+</div>
+
+</body>
+
+<br>
+
+	<form class = "form" action="/bollox" method="POST", id = "cricform">
+	
+	<div style = "width:50%;float:left;">
+	
+	<label for="Target_runs">Batting: target runs per over</label><br>
+	<input type = "number" name = "Target_runs" id = "Target_runs" value = 4><br>
+	
+	<br>
+	
+	<label for = "Bowling_tactic"> Bowling tactics:</label><br>
+	
+	<input type="radio" id="tactic_1" name="bowler_tactics" value="top of off" checked="checked">
+	<label for="tactic_1"> Top of off</label><br>
+	<input type="radio" id="tactic_2" name="bowler_tactics" value="tie him down">
+	<label for="tactic_2"> Come into channel</label><br>
+	<input type="radio" id="tactic_3" name="bowler_tactics" value="bowl at the stumps">
+	<label for="tactic_3"> Bowl at the stumps</label><br>
+	
+	<br>
+    
+	<input type="submit" name="bowl over" value="bowl over">
+	
+	<br>
+	<br>
+
+	</div>
+
+	<div style = "width:50%;float:left;">
+
+	 <label for="next_bowler">Bowler:</label>
+     <select id="next_bowler" name="next_bowler" form="cricform" type = "text" value = "next_bowler">
+	{% for bowler in bowlers %}
+    <option value= "{{bowler}}" SELECTED>{{bowler}}</option>"
+	{% endfor %}
+	</select><br>
+	
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+     <input type="submit" name="New Game" value="New Game">
+	 
+	 
+	<br>
+	<br>
+	<br>
+	 
+	 </div>
+	 
+	
+	 
+</form>
+
+<div>
+<br>
+
+<h2> Last over </h2>
+
+ <table style="width:100%">
+  <tr>
+    <th>Delivery</th>
+    <th>Bowler & Bat </th>
+    <th>Outcome</th>
+	<th>Commentary</th>
+
+  </tr>
+
+
+  {% for line in ballbyball %}
+  <tr>
+    <td>{{ line.Delivery }}</td>
+	<td>{{ line.Bowler }}, to {{ line.Batsman }}</td>
+    <td>{{ line.Outcome }}</td>
+	<td>{{line.Commentary}}</td>
+  </tr>
+  {% endfor %}
+
+</table>
+
+</div>
+
+<h2>Batting scorecards</h2>
+
+<div class="row">
+  <div class="column" style="background-color:#aaa;">
+
+  <table style="width:50%">
+  <tr>
+    <th>Name</th>
+    <th>Runs</th>
+    <th>Balls faced</th>
+	<th>How out</th>
+	<th>Bowler</th>
+
+  </tr>
+
+
+  {% for line in t1bat %}
+  <tr>
+    <td>{{ line.Name }}</td>
+    <td>{{line.Runs}}</td>
+    <td>{{line.Ballsfaced}}</td>
+	<td>{{line.Howout}}</td>
+	<td>{{line.Bowler}}</td>
+  </tr>
+  {% endfor %}
+
+</table>
+
+ </div>
+
+ <div class="column" style="background-color:#bbb;">
+
+  <table style="width:50%">
+  <tr>
+    <th>Name</th>
+    <th>Runs</th>
+    <th>Balls faced</th>
+	<th>How out</th>
+	<th>Bowler</th>
+
+  </tr>
+
+  {% for line in t2bat %}
+  <tr>
+    <td>{{ line.Name }}</td>
+    <td>{{line.Runs}}</td>
+    <td>{{line.Ballsfaced}}</td>
+	<td>{{line.Howout}}</td>
+	<td>{{line.Bowler}}</td>
+  </tr>
+  {% endfor %}
+
+</table>
+
+ </div>
+
+  </div>
+
+ <h2>Bowling scorecards</h2>
+
+<div class="row">
+  <div class="column" style="background-color:#aaa;">
+
+  <table style="width:50%">
+  <tr>
+    <th>Name</th>
+    <th>Overs</th>
+    <th>Maidens</th>
+	<th>Runs</th>
+	<th>Wickets</th>
+
+  </tr>
+
+
+  {% for line in t2bowl %}
+  <tr>
+    <td>{{ line.Name }}</td>
+	<td>{{ line.Overs }}</td>
+    <td>{{line.Maidens}}</td>
+    <td>{{line.Runs}}</td>
+	<td>{{line.Wickets}}</td>
+  </tr>
+  {% endfor %}
+
+</table>
+
+ </div>
+
+ <div class="column" style="background-color:#bbb;">
+
+  <table style="width:50%">
+  <tr>
+    <th>Name</th>
+    <th>Overs</th>
+    <th>Maidens</th>
+	<th>Runs</th>
+	<th>Wickets</th>
+
+  </tr>
+
+  {% for line in t1bowl %}
+  <tr>
+    <td>{{ line.Name }}</td>
+	<td>{{ line.Overs }}</td>
+    <td>{{line.Maidens}}</td>
+    <td>{{line.Runs}}</td>
+	<td>{{line.Wickets}}</td>
+  </tr>
+  {% endfor %}
+
+</table>
+
+ </div>
+
+  </div>
+
+
+ </body>
+
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+
+
+
+</html>
