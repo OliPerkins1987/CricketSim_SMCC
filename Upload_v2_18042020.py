@@ -10,7 +10,6 @@ TO DO:
     
     --- web interface
     
-    3) add team selection -- 2
     5) make sexy -- 5
     
     -- additions
